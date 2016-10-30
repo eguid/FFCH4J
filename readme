@@ -1,0 +1,31 @@
+演示示例：
+FFmpegManager manager=new FFmpegManagerImpl(10);
+//组装命令
+Map map = new HashMap();
+map.put("appName", "test123");
+map.put("input","rtsp://admin:admin@192.168.2.236:37779/cam/realmonitor?channel=1&subtype=0");
+map.put("output", "rtmp://192.168.30.21/live/");
+map.put("codec","h264");
+map.put("fmt", "flv");
+map.put("fps", "25");
+map.put("rs", "640x360");
+map.put("twoPart","2");
+
+//执行任务，id就是appName，如果执行失败返回为null
+String id=manager.start(map);
+System.out.println(id);
+
+//通过id查询
+TaskEntity info=manager.query(id);
+System.out.println(info);
+
+//查询全部
+Collection<TaskEntity> infoList=manager.queryAll();
+System.out.println(infoList);
+
+//停止id对应的任务
+manager.stop(id);
+//执行原生ffmpeg命令
+manager.start("test1", "这里放原生的ffmpeg命令");
+//停止全部任务
+manager.stopAll();
