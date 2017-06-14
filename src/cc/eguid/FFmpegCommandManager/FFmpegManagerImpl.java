@@ -9,10 +9,9 @@ import cc.eguid.FFmpegCommandManager.dao.TaskDao;
 import cc.eguid.FFmpegCommandManager.dao.TaskDaoImpl;
 import cc.eguid.FFmpegCommandManager.entity.TaskEntity;
 import cc.eguid.FFmpegCommandManager.service.CommandAssembly;
-import cc.eguid.FFmpegCommandManager.service.CommandAssemblyUtil;
+import cc.eguid.FFmpegCommandManager.service.CommandAssemblyImpl;
 import cc.eguid.FFmpegCommandManager.service.TaskHandler;
 import cc.eguid.FFmpegCommandManager.service.TaskHandlerImpl;
-import cc.eguid.FFmpegCommandManager.util.LoadConfig;
 
 /**
  * FFmpeg命令操作管理器
@@ -25,20 +24,20 @@ public class FFmpegManagerImpl implements FFmpegManager {
 	private TaskDao taskDao = null;
 	private TaskHandler taskHandler = null;
 	private CommandAssembly commandAssembly = null;
-	private LoadConfig loadConf = null;
+	
 
-	public FFmpegManagerImpl(boolean init) {
-		if (loadConf == null) {
-			loadConf = new LoadConfig();
+	public FFmpegManagerImpl() {
+		if (config == null) {
+			System.err.println("配置文件加载失败！配置文件不存在或配置错误");
+			return;
 		}
-		if (init) {
-			init(10);
-		}
+		init(config.getSize()==null?10:config.getSize());
 	}
 
 	public FFmpegManagerImpl(int size) {
-		if (loadConf == null) {
-			loadConf = new LoadConfig();
+		if (config == null) {
+			System.err.println("配置文件加载失败！配置文件不存在或配置错误");
+			return;
 		}
 		init(size);
 	}
@@ -51,7 +50,7 @@ public class FFmpegManagerImpl implements FFmpegManager {
 	public void init(int size) {
 		this.taskDao = new TaskDaoImpl(size);
 		this.taskHandler = new TaskHandlerImpl();
-		this.commandAssembly = new CommandAssemblyUtil();
+		this.commandAssembly = new CommandAssemblyImpl();
 	}
 
 	public void setTaskDao(TaskDao taskDao) {
@@ -68,8 +67,12 @@ public class FFmpegManagerImpl implements FFmpegManager {
 
 	@Override
 	public String start(String id, String command) {
+		return start(id,command,false);
+	}
+	@Override
+	public String start(String id, String command, boolean hasPath) {
 		if (id != null && command != null) {
-			TaskEntity tasker = taskHandler.process(id, command);
+			TaskEntity tasker = taskHandler.process(id, hasPath?command: config.getPath()+command);
 			if (tasker != null) {
 				int ret = taskDao.add(tasker);
 				if (ret > 0) {
@@ -77,18 +80,18 @@ public class FFmpegManagerImpl implements FFmpegManager {
 				} else {
 					// 持久化信息失败，停止处理
 					taskHandler.stop(tasker.getProcess(), tasker.getThread());
+					if(config.isDebug())
 					System.err.println("持久化失败，停止任务！");
 				}
 			}
 		}
 		return null;
 	}
-
 	@Override
 	public String start(Map assembly) {
 		// ffmpeg环境是否配置正确
-		if (!loadConf.isHave()) {
-			System.err.println("ffmpeg环境未配置，无法执行");
+		if (config==null) {
+			System.err.println("配置未正确加载，无法执行");
 			return null;
 		}
 		// 参数是否符合要求
@@ -101,10 +104,10 @@ public class FFmpegManagerImpl implements FFmpegManager {
 			System.err.println("appName不能为空");
 			return null;
 		}
-		assembly.put("ffmpegPath", loadConf.getPath());
+		assembly.put("ffmpegPath", config.getPath()+"ffmpeg");
 		String command = commandAssembly.assembly(assembly);
 		if (command != null) {
-			return start(appName, command);
+			return start(appName, command,true);
 		}
 
 		return null;
@@ -113,6 +116,7 @@ public class FFmpegManagerImpl implements FFmpegManager {
 	@Override
 	public boolean stop(String id) {
 		if (id != null && taskDao.isHave(id)) {
+			if(config.isDebug())
 			System.out.println("正在停止任务：" + id);
 			TaskEntity tasker = taskDao.get(id);
 			if (taskHandler.stop(tasker.getProcess(), tasker.getThread())) {
@@ -120,7 +124,7 @@ public class FFmpegManagerImpl implements FFmpegManager {
 				return true;
 			}
 		}
-		System.err.println("停止任务失败！");
+		System.err.println("停止任务失败！id="+id);
 		return false;
 	}
 
@@ -137,6 +141,7 @@ public class FFmpegManagerImpl implements FFmpegManager {
 				index++;
 			}
 		}
+		if(config.isDebug())
 		System.out.println("停止了" + index + "个任务！");
 		return index;
 	}
@@ -152,7 +157,7 @@ public class FFmpegManagerImpl implements FFmpegManager {
 	}
 
 	public static void main(String[] args) {
-		FFmpegManager manager = new FFmpegManagerImpl(10);
+		FFmpegManager manager = new FFmpegManagerImpl();
 		Map map = new HashMap();
 		map.put("appName", "test123");
 		map.put("input", "rtsp://admin:admin@192.168.2.236:37779/cam/realmonitor?channel=1&subtype=0");
@@ -178,4 +183,6 @@ public class FFmpegManagerImpl implements FFmpegManager {
 		// 停止全部任务
 		manager.stopAll();
 	}
+
+	
 }

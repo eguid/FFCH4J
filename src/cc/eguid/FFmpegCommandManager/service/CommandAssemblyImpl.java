@@ -7,7 +7,7 @@ import java.util.Map;
  * @since jdk1.7
  * @version 2016年10月29日
  */
-public class CommandAssemblyUtil implements  CommandAssembly{
+public class CommandAssemblyImpl implements  CommandAssembly{
 	/**
 	 * 
 	 * @param map

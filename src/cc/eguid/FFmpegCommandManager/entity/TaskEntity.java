@@ -23,4 +23,9 @@ public Process getProcess() {
 public Thread getThread() {
 	return thread;
 }
+@Override
+public String toString() {
+	return "TaskEntity [id=" + id + ", process=" + process + ", thread=" + thread + "]";
+}
+
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import cc.eguid.FFmpegCommandManager.FFmpegManager;
 import cc.eguid.FFmpegCommandManager.entity.TaskEntity;
 /**
  * 任务处理实现
@@ -24,12 +25,15 @@ public class TaskHandlerImpl implements TaskHandler {
 			if (runtime == null) {
 				runtime = Runtime.getRuntime();
 			}
+			if(FFmpegManager.config.isDebug())
 			System.out.println("执行命令："+command);
+			
 			process = runtime.exec(command);// 执行本地命令获取任务主进程
 			outHandler = new OutHandler(process.getErrorStream(), id);
 			outHandler.start();
 			tasker = new TaskEntity(id, process, outHandler);
 		} catch (IOException e) {
+			if(FFmpegManager.config.isDebug())
 			System.err.println("执行命令失败！正在停止进程和输出线程...");
 			stop(outHandler);
 			stop(process);
@@ -41,7 +45,7 @@ public class TaskHandlerImpl implements TaskHandler {
 
 	@Override
 	public boolean stop(Process process) {
-		if (process != null && process.isAlive()) {
+		if (process != null) {
 			process.destroy();
 			return true;
 		}
@@ -115,6 +119,7 @@ class OutHandler extends Thread {
 		int errorIndex = 0;
 		int status = 10;
 		try {
+			if(FFmpegManager.config.isDebug()){
 			System.out.println(type + "开始推流！");
 			while (desstatus && (msg = br.readLine()) != null) {
 				if (msg.indexOf("[rtsp") != -1) {
@@ -129,6 +134,9 @@ class OutHandler extends Thread {
 					status *= 2;
 				}
 				index++;
+			}
+			}else{
+				Thread.yield();
 			}
 		} catch (IOException e) {
 			System.out.println("发生内部异常错误，自动关闭[" + this.getId() + "]线程");
