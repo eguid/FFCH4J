@@ -10,11 +10,12 @@
 	(3)、如果上述位置都没有找到配置文件，会自动加载默认配置，默认的配置文件在config包下的defaultFFmpegConfig.properties中
 
  	2、支持自定义的消息输出
+	
 	上个版本更新说明
  	3、增加一个String start(String id,String commond,boolean hasPath)接口，用于区分是否使用配置文件中的绝对路径，如果为false，请务必保证ffmpeg的路径可以正确加载
  	4、增加一个debug配置，用于判断是否输出关键位置的debug消息
  ## 基于
- 本项目基于jdk1.7开发，FFmpeg各版本支持的命令请参考FFmpeg官方文档
+ 本项目基于jdk1.7开发，FFmpeg各版本支持的命令请参考[FFmpeg官方文档](http://ffmpeg.org/ffmpeg.html)<br />
  ## 使用说明 
 
 	 FFmpegManager manager=new FFmpegManagerImpl(10);
