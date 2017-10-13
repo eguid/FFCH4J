@@ -17,7 +17,7 @@
  ## 基于
  本项目基于jdk1.7开发，FFmpeg各版本支持的命令请参考[FFmpeg官方文档](http://ffmpeg.org/ffmpeg.html)<br />
  ## 使用说明 
-
+```Java 
 	 FFmpegManager manager=new FFmpegManagerImpl(10);
 	//当然也可以这样：FFmpegManager manager=new FFmpegManagerImpl();//这样会从配置文件中读取size的值作为初始化参数
 	//组装命令
@@ -48,6 +48,7 @@
 	manager.start("test2,","d:/ffmpeg/ffmpeg -i input_file -vcodec copy -an output_file_video",true);
 	//停止全部任务
 	manager.stopAll();
+```
 关于FFmpegCommandHandler接口调用/使用方式也可以参考readme文件
 
  ## 下个版本构想
