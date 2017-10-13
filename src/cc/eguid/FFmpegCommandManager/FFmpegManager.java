@@ -19,6 +19,7 @@ import cc.eguid.FFmpegCommandManager.service.TaskHandler;
  * @version 2016年10月29日
  */
 public interface FFmpegManager {
+	
 	public static FFmpegConfig config=(FFmpegConfig) load("loadFFmpeg.properties",  FFmpegConfig.class);
 	/**
 	 * 注入自己实现的持久层
@@ -65,7 +66,7 @@ public interface FFmpegManager {
 	 *            -组装命令（详细请参照readme文档说明）
 	 * @return
 	 */
-	public String start(Map assembly);
+	public String start(Map<String,String> assembly);
 	
 	/**
 	 * 停止任务

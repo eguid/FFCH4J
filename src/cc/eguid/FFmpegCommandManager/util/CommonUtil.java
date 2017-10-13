@@ -62,7 +62,7 @@ public class CommonUtil {
 	 * @param cla
 	 * @return
 	 */
-	public static String getClassPath(Class cla){
+	public static String getClassPath(Class<?> cla){
 		return cla.getResource("").getPath();
 	}
 	

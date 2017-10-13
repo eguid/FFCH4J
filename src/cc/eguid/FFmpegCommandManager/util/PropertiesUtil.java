@@ -22,13 +22,29 @@ public class PropertiesUtil {
 	 * @param cl
 	 * @return
 	 */
-	public static Object load(String path, Class cl) {
+	public static Object load(String path, Class<?> cl) {
 		InputStream is = null;
 		try {
 			is = getInputStream(path);
 		} catch (FileNotFoundException e) {
-			System.err.println("没找到配置文件:" + path);
-			return null;
+			//尝试从web目录读取
+			String newpath=CommonUtil.getProjectRootPath()+path;
+			System.err.println("尝试从web目录读取配置文件："+newpath);
+			try {
+				is = getInputStream(newpath);
+			System.err.println("web目录读取到配置文件："+newpath);
+			} catch (FileNotFoundException e1) {
+				System.err.println("没找到配置文件，读取默认配置文件");
+				//尝试从jar包中读取默认配置文件
+				ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+				try {
+					is = classloader.getResourceAsStream("cc/eguid/FFmpegCommandManager/config/defaultFFmpegConfig.properties");
+					System.err.println("读取默认配置文件：defaultFFmpegConfig.properties");
+				} catch (Exception e2) {
+					System.err.println("没找到默认配置文件:defaultFFmpegConfig.properties");
+					return null;
+				}
+			}
 		}
 		if (is != null) {
 			Properties pro = new Properties();
@@ -51,7 +67,7 @@ public class PropertiesUtil {
 	 * @param cl
 	 * @return
 	 */
-	public static Object load(Properties pro, Class cl) {
+	public static Object load(Properties pro, Class<?> cl) {
 		try {
 			Map<String, Object> map = getMap(pro);
 			System.err.println("读取的配置项：" + map);

@@ -3,9 +3,7 @@ package cc.eguid.FFmpegCommandManager.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * 反射操作工具
@@ -18,7 +16,7 @@ public class ReflectUtil {
 	public static final String SET = "set";
 	public static final String GET = "get";
 
-	public static Object mapToObj(Map<String, Object> map, Class oc)
+	public static Object mapToObj(Map<String, Object> map, Class<?> oc)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Method[] ms = oc.getDeclaredMethods();
 		if (ms == null || ms.length < 1) {
@@ -74,12 +72,12 @@ public class ReflectUtil {
 		return null;
 	}
 
-	public static Class<?> getFieldType(Class cl, String fieldName) throws NoSuchFieldException, SecurityException {
+	public static Class<?> getFieldType(Class<?> cl, String fieldName) throws NoSuchFieldException, SecurityException {
 		Field f = cl.getDeclaredField(fieldName);
 		return f.getType();
 	}
 
-	public static Field findField(Class cl, String fieldName) throws NoSuchFieldException, SecurityException {
+	public static Field findField(Class<?> cl, String fieldName) throws NoSuchFieldException, SecurityException {
 		return cl.getDeclaredField(fieldName);
 	}
 
@@ -102,7 +100,7 @@ public class ReflectUtil {
 		return m.invoke(obj, value);
 	}
 
-	public static Object getFieldValue(Class obj, String FieldName) throws NoSuchFieldException, SecurityException {
+	public static Object getFieldValue(Class<?> obj, String FieldName) throws NoSuchFieldException, SecurityException {
 		return obj.getDeclaredField(FieldName);
 	}
 
@@ -114,7 +112,7 @@ public class ReflectUtil {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	public static Object getObject(Class oc) throws InstantiationException, IllegalAccessException {
+	public static Object getObject(Class<?> oc) throws InstantiationException, IllegalAccessException {
 		return oc.newInstance();
 	}
 
