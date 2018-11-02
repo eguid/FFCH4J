@@ -1,4 +1,4 @@
-﻿# FFmpegCommandHandler4java（FFmpeg命令执行管理器） 
+﻿# FFCH4j（全称：FFmpeg命令执行管理器） 
  ## 说明
  java封装的提供ffmpeg命令执行、停止、查询功能的简单管理器 。
  FFCH4j不仅仅只支持ffmpeg命令，还支持执行多平台的命令行操作，不管是执行linux命令还是windows的命令行都是手到擒来（注意：本项目并未屏蔽某些敏感操作，比如rm -rf，当然这会产生一些风险，还请注意规避）。
