@@ -1,5 +1,5 @@
-﻿# FFCH4J（原名FFmpegComandHandler4java，FFmpeg命令行运行管理器） 
- 鉴于很多小伙伴们反馈原名太长，现项目改为缩写‘FFCH4J’
+﻿# FFCH4J（原名FFmpegComandHandler4java） 
+ FFCH4J项目全称：FFmpeg命令行运行管理器，鉴于很多小伙伴们反馈原名太长，现项目改为缩写‘FFCH4J’
  ## 说明
  java封装的提供ffmpeg命令执行、停止、查询功能的简单管理器 。
  FFCH4j不仅仅只支持ffmpeg命令，还支持执行多平台的命令行指令，不管是执行linux命令还是windows的命令行都是手到擒来（注意：本项目并未屏蔽某些敏感操作，比如rm -rf，当然这会产生一些风险，还请注意规避）。
