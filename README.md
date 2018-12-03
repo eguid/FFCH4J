@@ -20,8 +20,13 @@
  本项目基于jdk1.7开发，FFmpeg各版本支持的命令请参考[FFmpeg官方文档](http://ffmpeg.org/ffmpeg.html)<br />
  ## 使用说明 
 ```Java 
-	 FFmpegManager manager=new FFmpegManagerImpl(10);
-	//当然也可以这样：FFmpegManager manager=new FFmpegManagerImpl();//这样会从配置文件中读取size的值作为初始化参数
+	 //18.12.02新版本创建方式
+CommandManager manager=new CommandManagerImpl(10);
+
+//老版本创建方式：
+FFmpegManager manager=new FFmpegManagerImpl(10);
+//当然也可以这样
+FFmpegManager manager=new FFmpegManagerImpl();//这样会从配置文件中读取size的值作为初始化参数
 	//组装命令
 	Map map = new HashMap();
 	map.put("appName", "test123");
