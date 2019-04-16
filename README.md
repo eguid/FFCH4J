@@ -1,4 +1,5 @@
-﻿# FFCH4J（原名FFmpegComandHandler4java） 
+ [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
+ # FFCH4J（原名FFmpegComandHandler4java） 
  FFCH4J项目全称：FFmpeg命令行运行管理器，鉴于很多小伙伴们反馈原名太长，现项目改为缩写‘FFCH4J’
  ## 说明
  java封装的提供ffmpeg命令执行、停止、查询功能的简单管理器 。
