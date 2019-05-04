@@ -1,7 +1,7 @@
  [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
  [![LICENSE](https://camo.githubusercontent.com/f969af70fa6573766a11cb0a968fc82b069298f1/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f6c697a68696368616f2f6f6e652e737667)](https://github.com/eguid/FFCH4J/blob/master/LICENSE)
- # FFCH4J（原名FFmpegComandHandler4java） 
- FFCH4J项目全称：FFmpeg命令行运行管理器，鉴于很多小伙伴们反馈原名太长，现项目改为缩写‘FFCH4J’
+ # FFCH4J（原用名：FFmpegCommandHandler4java） 
+ FFCH4J项目全称：FFmpeg命令行运行管理器，鉴于很多小伙伴们反馈原名太长，改为‘FFCH4J’
  ## 说明
  java封装的提供ffmpeg命令执行、停止、查询功能的简单管理器 。
  FFCH4j不仅仅只支持ffmpeg命令，还支持执行多平台的命令行指令，不管是执行linux命令还是windows的命令行都是手到擒来（注意：本项目并未屏蔽某些敏感操作，比如rm -rf，当然这会产生一些风险，还请注意规避）。
